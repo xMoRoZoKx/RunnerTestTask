@@ -23,24 +23,23 @@ public class PlatformGenerator : IDisposable
 
         character = characterView;
 
-        interactableViewPool = new(
-            createFunc: () =>
-            {
-                var interactable = UnityEngine.Object.Instantiate(settings.interactableViewsPrefabs.GetRandom());
-                onInteractableGenerate?.Invoke(interactable);
+        InitInteractableViewPool(onInteractableGenerate);
+        InitTilePool(onTileGenerate);
 
-                return interactable;
-            },
-            actionOnGet: tile =>
-            {
-                tile.SetActive(true);
-            },
-            actionOnRelease: tile =>
-            {
-                tile.SetActive(false);
-            },
-            collectionCheck: false);
+        for (int i = 0; i < 5; i++)
+        {
+            tilePool.Get();
+        }
 
+        var centreTile = tiles[tiles.Count / 2];
+        characterView.SetPosition(centreTile.transform.position.WithY(y => y + 2));
+
+        if (settings.distanceToCorrectCoordinates < minDistanceToCorrectCoordinates)
+            Debug.LogWarning("distanceToCorrectCoordinates less than minimum");
+    }
+
+    private void InitTilePool(Action<TileView> onTileGenerate)
+    {
         tilePool = new(
             createFunc: () =>
             {
@@ -89,17 +88,28 @@ public class PlatformGenerator : IDisposable
 
                 tiles.Remove(tile);
             });
+    }
+    private void InitInteractableViewPool(Action<InteractableView> onInteractableGenerate)
+    {
+        interactableViewPool = new(
+            createFunc: () =>
+            {
+                var interactable = UnityEngine.Object.Instantiate(settings.interactableViewsPrefabs.GetRandom());
+                onInteractableGenerate?.Invoke(interactable);
 
-        for (int i = 0; i < 5; i++)
-        {
-            tilePool.Get();
-        }
+                return interactable;
+            },
+            actionOnGet: tile =>
+            {
+                tile.SetActive(true);
+            },
+            actionOnRelease: tile =>
+            {
+                tile.SetActive(false);
+            },
+            collectionCheck: false);
 
-        var centreTile = tiles[tiles.Count / 2];
-        characterView.SetPosition(centreTile.transform.position.WithY(y => y + 2));
 
-        if (settings.distanceToCorrectCoordinates < minDistanceToCorrectCoordinates)
-            Debug.LogWarning("distanceToCorrectCoordinates less than minimum");
     }
     /// Invoke for tiles rebuild with ne character position
     public void UpdateTiles()

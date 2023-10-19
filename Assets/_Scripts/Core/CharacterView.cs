@@ -9,8 +9,6 @@ public class CharacterView : CharacterBaseView
     [SerializeField] private Transform view;
     [SerializeField] CharacterController characterController;
     private Vector3 moveDirection;
-    private long fallTime;
-    private long currentTime => DateTime.Now.Second;
     private readonly float flyHight = 10;
     private const float gravity = 1;
     private bool useGravity = true;
@@ -34,27 +32,25 @@ public class CharacterView : CharacterBaseView
     {
         this.moveDirection = moveDirection;
     }
-    public override void Fly(float flyDuration)
+    public override void Fly()
     {
-        if (!isFly)
+        if (state != CharacterState.Fly)
         {
             characterController.Move(Vector3.up * flyHight);
-            isFly = true;
+            state = CharacterState.Fly;
         }
-
-        fallTime = currentTime + (long)flyDuration;
 
         useGravity = false;
     }
-    public override void Fall()
+    public override void Run()
     {
-        if (!isFly) return;
+        if (state == CharacterState.Fly)
+        {
+            characterController.Move(Vector3.down * flyHight);
+            useGravity = true;
+        }
 
-        isFly = false;
-
-        characterController.Move(Vector3.down * flyHight);
-
-        useGravity = true;
+        state = CharacterState.Run;
     }
     public override void SetPosition(Vector3 position)
     {
@@ -65,7 +61,6 @@ public class CharacterView : CharacterBaseView
     private void FixedUpdate()
     {
         MoveForward();
-        if (isFly && fallTime - currentTime <= 0) Fall();
     }
 
 }

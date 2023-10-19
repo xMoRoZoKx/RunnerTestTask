@@ -2,21 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UniTools.Reactive;
 using UnityEngine;
-
+public enum CharacterState
+{
+    Fly,
+    Run
+}
 public abstract class CharacterBaseView : MonoBehaviour
 {
     [field: SerializeField] protected virtual Reactive<float> currentSpeed { get; set; } = new Reactive<float>(20);
-    public IReactive<float> CurrentSpeed => currentSpeed;
     [field: SerializeField] public virtual float minSpeed { get; protected set; } = 5;
-    public virtual bool isFly { get; protected set; } = false;
-    public virtual float AddSpeedAndGetFactualOffset(float speed)
-    {
-        var oldSpeed = currentSpeed.value;
+    [field: SerializeField] public virtual float maxSpeed { get; protected set; } = 20;
+    public virtual ReactiveList<AbilityInstance> currentAbilities { get; set; } = new ReactiveList<AbilityInstance>();
+    public virtual CharacterState state { get; protected set; } = CharacterState.Run;
+    public IReactive<float> CurrentSpeed => currentSpeed;
 
+    public virtual void SetSpeed(float speed)
+    {
         currentSpeed.value -= speed;
         if (currentSpeed.value < minSpeed) currentSpeed.value = minSpeed;
-
-        return currentSpeed.value - oldSpeed;
+        if (currentSpeed.value > maxSpeed) currentSpeed.value = maxSpeed;
     }
     public virtual void SetPosition(Vector3 position)
     {
@@ -25,6 +29,6 @@ public abstract class CharacterBaseView : MonoBehaviour
     public abstract void MoveForward();
     public abstract void Init(Vector3 moveDirection);
     public abstract void SetDirection(Vector3 moveDirection);
-    public abstract void Fly(float flyDuration);
-    public abstract void Fall();
+    public abstract void Fly();
+    public abstract void Run();
 }

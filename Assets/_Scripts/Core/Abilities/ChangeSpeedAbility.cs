@@ -5,17 +5,20 @@ using UnityEngine;
 
 /// The ability adds the specified speed in the speedPointsCount
 [CreateAssetMenu(fileName = "ChangeSpeedAbility", menuName = "Abilities/Change Speed Ability")]
-public class ChangeSpeedAbility : Ability
+public class ChangeSpeedAbility : TemporaryAbility
 {
     [SerializeField] private float speedPointsCount;
-    [SerializeField] private float duration;
     public override void Apply(CharacterBaseView character)
     {
-        var factualPoints = character.AddSpeedAndGetFactualOffset(speedPointsCount);
+        var oldSpeed = character.CurrentSpeed.Value;
 
-        character.Wait(duration, () =>
+        character.SetSpeed(speedPointsCount);
+
+        var factualPoints = character.CurrentSpeed.Value - oldSpeed;
+
+        CreateTemporaryAbilityInstance(character, instance =>
         {
-            character.AddSpeedAndGetFactualOffset(factualPoints);
+            character.SetSpeed(factualPoints);
         });
     }
 }

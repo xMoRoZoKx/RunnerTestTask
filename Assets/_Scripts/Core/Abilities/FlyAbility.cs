@@ -1,13 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UniTools;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "FlyAbility", menuName = "Abilities/Fly Ability")]
-public class FlyAbility : Ability
+public class FlyAbility : TemporaryAbility
 {
-    [SerializeField] private float duration;
     public override void Apply(CharacterBaseView character)
     {
-        character.Fly(duration);
+        character.Fly();
+
+        CreateTemporaryAbilityInstance(character,
+            onComplete: instance =>
+            {
+                if (character.currentAbilities.Any(abilityInst => abilityInst.Ability is FlyAbility && abilityInst != instance)) return;
+                character.Run();
+            });
     }
 }

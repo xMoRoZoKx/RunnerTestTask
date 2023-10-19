@@ -75,6 +75,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7888ef61b54208742b5959efd3b8d1c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <currentSpeed>k__BackingField:
+    _value: 20
+  <minSpeed>k__BackingField: 5
+  <maxSpeed>k__BackingField: 100
   rotationCoefficient: 10
   view: {fileID: 2417495630212860281}
   characterController: {fileID: 4146139738089198981}
