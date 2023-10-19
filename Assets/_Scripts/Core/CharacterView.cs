@@ -18,6 +18,21 @@ public class CharacterView : CharacterBaseView
     {
         currentSpeed.value = startSpeed;
         SetDirection(moveDirection);
+
+        connections += state.Buffer((oldState, newState) =>
+        {
+            if (newState == CharacterState.Fly)
+            {
+                characterController.Move(Vector3.up * flyHight);
+                useGravity = false;
+            }
+
+            if (newState == CharacterState.Run && oldState == CharacterState.Fly)
+            {
+                characterController.Move(Vector3.down * flyHight);
+                useGravity = true;
+            }
+        });
     }
 
     public override void MoveForward()
@@ -32,26 +47,6 @@ public class CharacterView : CharacterBaseView
     public override void SetDirection(Vector3 moveDirection)
     {
         this.moveDirection = moveDirection;
-    }
-    public override void Fly()
-    {
-        if (state != CharacterState.Fly)
-        {
-            characterController.Move(Vector3.up * flyHight);
-            state = CharacterState.Fly;
-        }
-
-        useGravity = false;
-    }
-    public override void Run()
-    {
-        if (state == CharacterState.Fly)
-        {
-            characterController.Move(Vector3.down * flyHight);
-            useGravity = true;
-        }
-
-        state = CharacterState.Run;
     }
     public override void SetPosition(Vector3 position)
     {

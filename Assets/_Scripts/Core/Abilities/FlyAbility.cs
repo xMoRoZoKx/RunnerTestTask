@@ -9,13 +9,13 @@ public class FlyAbility : TemporaryAbility
 {
     public override void Apply(CharacterBaseView character)
     {
-        character.Fly();
+        character.state.value = CharacterState.Fly;
 
         CreateTemporaryAbilityInstance(character,
             onComplete: instance =>
             {
                 if (character.currentAbilities.Any(abilityInst => abilityInst.Ability is FlyAbility && abilityInst != instance)) return;
-                character.Run();
+                character.state.value = CharacterState.Run;
             });
     }
 }
