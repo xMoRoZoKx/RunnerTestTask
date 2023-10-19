@@ -16,6 +16,7 @@ public class CharacterView : CharacterBaseView
 
     public override void Init(Vector3 moveDirection)
     {
+        currentSpeed.value = startSpeed;
         SetDirection(moveDirection);
     }
 

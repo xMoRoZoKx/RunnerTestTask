@@ -9,9 +9,10 @@ public enum CharacterState
 }
 public abstract class CharacterBaseView : MonoBehaviour
 {
-    [field: SerializeField] protected virtual Reactive<float> currentSpeed { get; set; } = new Reactive<float>(20);
+    [field: SerializeField] protected virtual Reactive<float> currentSpeed { get; set; } = new Reactive<float>();
     [field: SerializeField] public virtual float minSpeed { get; protected set; } = 5;
     [field: SerializeField] public virtual float maxSpeed { get; protected set; } = 20;
+    [field: SerializeField] public virtual float startSpeed { get; protected set; } = 20;
     public virtual ReactiveList<AbilityInstance> currentAbilities { get; set; } = new ReactiveList<AbilityInstance>();
     public virtual CharacterState state { get; protected set; } = CharacterState.Run;
     public IReactive<float> CurrentSpeed => currentSpeed;
