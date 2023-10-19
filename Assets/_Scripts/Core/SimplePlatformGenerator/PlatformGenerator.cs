@@ -1,11 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UniTools;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class PlatformGenerator : IDisposable
 {
