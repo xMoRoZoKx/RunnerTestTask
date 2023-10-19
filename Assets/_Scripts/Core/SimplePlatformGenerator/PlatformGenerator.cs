@@ -137,7 +137,7 @@ public class PlatformGenerator : IDisposable
             tile.transform.position += tile.transform.position.Direction(character.transform.position) * distance;
         });
     }
-
+    //to quickly search generator logs in the console
     private void Log(string message)
     {
         Debug.Log($"GENERATOR|{message}");
