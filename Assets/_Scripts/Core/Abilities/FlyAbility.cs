@@ -6,7 +6,7 @@ using UnityEngine;
 public class FlyAbility : Ability
 {
     [SerializeField] private float duration;
-    public override void Applay(CharacterBaseView character)
+    public override void Apply(CharacterBaseView character)
     {
         character.Fly(duration);
     }

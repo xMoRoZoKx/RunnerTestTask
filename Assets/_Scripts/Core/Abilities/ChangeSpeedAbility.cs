@@ -9,7 +9,7 @@ public class ChangeSpeedAbility : Ability
 {
     [SerializeField] private float speedPointsCount;
     [SerializeField] private float duration;
-    public override void Applay(CharacterBaseView character)
+    public override void Apply(CharacterBaseView character)
     {
         var factualPoints = character.AddSpeedAndGetFactualOffset(speedPointsCount);
 

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class Ability : ScriptableObject
 {
-   public abstract void Applay(CharacterBaseView character);
+   public abstract void Apply(CharacterBaseView character);
 }
