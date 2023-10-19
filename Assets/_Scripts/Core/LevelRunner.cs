@@ -4,6 +4,7 @@ using Cinemachine;
 using UniTools;
 using UnityEngine;
 
+//Enter point for level
 public class LevelRunner : ConnectableMonoBehaviour
 {
     [SerializeField] private GenerateSettingsConfig generateSettings;
@@ -28,6 +29,7 @@ public class LevelRunner : ConnectableMonoBehaviour
 
         connections += onUpdate.Subscribe(platformGenerator.UpdateTiles);
 
+        //Show HUD window from prefabs in resources
         WindowManager.Instance.Show<GameHUD>(inst =>
         {
             inst.Show(character);

@@ -19,6 +19,7 @@ public class PlatformGenerator : IDisposable
     public readonly Vector3 Direction = new Vector3(1, 0, 0);
 
 
+    /// Invoke for initialization generator
     public void Generate(CharacterBaseView characterView, GenerateSettingsConfig generationSettings, Action<TileView> onTileGenerate = null, Action<InteractableView> onInteractableGenerate = null)
     {
         settings = generationSettings;
@@ -103,6 +104,7 @@ public class PlatformGenerator : IDisposable
         if (settings.distanceToCorrectCoordinates < minDistanceToCorrectCoordinates)
             Debug.LogWarning("distanceToCorrectCoordinates less than minimum");
     }
+    /// Invoke for tiles rebuild with ne character position
     public void UpdateTiles()
     {
         if (tiles.Count == 0 || character == null) return;
