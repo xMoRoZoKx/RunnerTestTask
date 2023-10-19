@@ -28,8 +28,8 @@ public class CharacterView : CharacterBaseView
 
         view?.Rotate(-currentSpeed.value * rotationCoefficient, 0, 0);
     }
-    
-    //Set forward direction
+
+    //Set route direction
     public override void SetDirection(Vector3 moveDirection)
     {
         this.moveDirection = moveDirection;
